@@ -85,7 +85,7 @@ function BentoCell({ area, delay }: { area: string; delay: number }) {
 // ── Case Studies: image cell ──────────────────────────────────────────────────
 // Pure #F6F6F9 cell, image absolutely positioned per exact Figma coordinates.
 function FigmaImageCell({
-  src, imgStyle, delay, shadow, width, flexValue,
+  src, imgStyle, delay, shadow, width, flexValue, priority = false,
 }: {
   src: string;
   imgStyle: React.CSSProperties;
@@ -93,6 +93,7 @@ function FigmaImageCell({
   shadow?: string;
   width?: number;
   flexValue?: number;
+  priority?: boolean;
 }) {
   return (
     <motion.div
@@ -117,9 +118,12 @@ function FigmaImageCell({
         src={src}
         alt=""
         draggable={false}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        fetchPriority={priority ? "high" : "auto"}
         initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
         animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-        transition={{ type: "tween", duration: 0.38, delay: delay + 0.06, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ type: "tween", duration: 0.24, delay: delay + 0.04, ease: [0.22, 1, 0.36, 1] }}
         style={{
           position: "absolute",
           boxShadow: shadow,
@@ -177,8 +181,9 @@ function ExperimentsBento({
 
         {/* image-280 cell — flex:1 */}
         <FigmaImageCell
-          src="/assets/experiments/image-280-531815.png"
+          src="/assets/experiments/image-280-531815.webp"
           delay={0.04}
+          priority
           imgStyle={{ left: 67, top: -112, width: 421, height: 267, borderRadius: 12 }}
         />
 
@@ -246,7 +251,7 @@ function ExperimentsBento({
 
         {/* Release Popups cell — 225px */}
         <FigmaImageCell
-          src="/assets/experiments/component-release-popups.png"
+          src="/assets/experiments/component-release-popups.webp"
           width={225}
           delay={0.18}
           imgStyle={{ left: 38, top: 63.56, width: 148, height: 318, borderRadius: 12 }}
@@ -255,7 +260,7 @@ function ExperimentsBento({
 
         {/* image-297 cell — flex:1 */}
         <FigmaImageCell
-          src="/assets/experiments/image-297.png"
+          src="/assets/experiments/image-297.webp"
           delay={0.26}
           imgStyle={{ left: 74, top: 63.5, width: 406, height: 509, borderRadius: 12 }}
         />
@@ -318,15 +323,16 @@ function HandcraftedBento({
 
         {/* img-2146 — 263px */}
         <FigmaImageCell
-          src="/assets/handcrafted/img-2146.png"
+          src="/assets/handcrafted/img-2146.webp"
           width={263}
           delay={0.04}
+          priority
           imgStyle={{ left: 39, top: 35, width: 185, height: 242, borderRadius: 12 }}
         />
 
         {/* img-2144 — 229px */}
         <FigmaImageCell
-          src="/assets/handcrafted/img-2144.png"
+          src="/assets/handcrafted/img-2144.webp"
           width={229}
           delay={0.08}
           imgStyle={{ left: 34, top: -15, width: 161, height: 199, borderRadius: 12 }}
@@ -387,7 +393,7 @@ function HandcraftedBento({
 
         {/* img-2140 — 327px (new crop 152c46) */}
         <FigmaImageCell
-          src="/assets/handcrafted/img-2140-152c46.png"
+          src="/assets/handcrafted/img-2140-152c46.webp"
           width={327}
           delay={0.18}
           imgStyle={{ left: 38, top: 40.5, width: 251, height: 268, borderRadius: 12 }}
@@ -395,14 +401,14 @@ function HandcraftedBento({
 
         {/* img-2142 — fill */}
         <FigmaImageCell
-          src="/assets/handcrafted/img-2142.png"
+          src="/assets/handcrafted/img-2142.webp"
           delay={0.22}
           imgStyle={{ left: 34, top: -36.5, width: 175, height: 220, borderRadius: 12 }}
         />
 
         {/* img-2141 — fill */}
         <FigmaImageCell
-          src="/assets/handcrafted/img-2141.png"
+          src="/assets/handcrafted/img-2141.webp"
           delay={0.26}
           imgStyle={{ left: 32.5, top: 40.5, width: 180, height: 210, borderRadius: 12 }}
         />
@@ -514,7 +520,7 @@ function CaffeinatedBento({
 
         {/* img-278 — 263px */}
         <FigmaImageCell
-          src="/assets/caffeinated/img-278-570c3b.png"
+          src="/assets/caffeinated/img-278-570c3b.webp"
           width={263}
           delay={0.08}
           imgStyle={{ left: 45, top: -37, width: 173, height: 224, borderRadius: 12 }}
@@ -522,7 +528,7 @@ function CaffeinatedBento({
 
         {/* img-277a — 204px */}
         <FigmaImageCell
-          src="/assets/caffeinated/img-277-1cbcaa.png"
+          src="/assets/caffeinated/img-277-1cbcaa.webp"
           width={204}
           delay={0.12}
           imgStyle={{ left: 37, top: 60, width: 130, height: 173, borderRadius: 12 }}
@@ -534,7 +540,7 @@ function CaffeinatedBento({
 
         {/* img-276 — 285px */}
         <FigmaImageCell
-          src="/assets/caffeinated/img-276-e797b2.png"
+          src="/assets/caffeinated/img-276-e797b2.webp"
           width={285}
           delay={0.18}
           imgStyle={{ left: 54, top: 35.5, width: 177, height: 222, borderRadius: 12 }}
@@ -542,14 +548,14 @@ function CaffeinatedBento({
 
         {/* img-277b — fill */}
         <FigmaImageCell
-          src="/assets/caffeinated/img-277-7c6c1e.png"
+          src="/assets/caffeinated/img-277-7c6c1e.webp"
           delay={0.22}
           imgStyle={{ left: 45, top: -29.5, width: 178, height: 228, borderRadius: 12 }}
         />
 
         {/* img-277c — 262px */}
         <FigmaImageCell
-          src="/assets/caffeinated/img-277-6a1602.png"
+          src="/assets/caffeinated/img-277-6a1602.webp"
           width={262}
           delay={0.26}
           imgStyle={{ left: 48, top: 35.5, width: 167, height: 203, borderRadius: 12 }}
@@ -662,12 +668,15 @@ function ResumeBento({
         style={{ ...cellStyle, flex: 1 }}
       >
         <motion.img
-          src="/assets/resume/resume-doc.png"
+          src="/assets/resume/resume-doc.webp"
           alt=""
           draggable={false}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
           animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-          transition={{ type: "tween", duration: 0.42, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ type: "tween", duration: 0.24, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           style={{
             position: "absolute",
             left: 136.57, top: 38,
@@ -787,11 +796,14 @@ function ThoughtsBento({
           style={{ ...cellBase, flex: 1 }}
         >
           <motion.img
-            src="/assets/thoughts/image-306.png"
+            src="/assets/thoughts/image-306.webp"
             alt="" draggable={false}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
             initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-            transition={{ type: "tween", duration: 0.38, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ type: "tween", duration: 0.24, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             style={{ position: "absolute", left: 39, top: -12, width: 398, height: 187, objectFit: "cover", borderRadius: 12, userSelect: "none" }}
           />
         </motion.div>
@@ -816,11 +828,13 @@ function ThoughtsBento({
             overflow: "hidden",
           }}>
             <motion.img
-              src="/assets/thoughts/image-305-207ac5.png"
+              src="/assets/thoughts/image-305-207ac5.webp"
               alt="" draggable={false}
+              loading="lazy"
+              decoding="async"
               initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
               animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-              transition={{ type: "tween", duration: 0.38, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ type: "tween", duration: 0.24, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               style={{ position: "absolute", left: 20.5, top: 17, width: 198, height: 156, borderRadius: 12, userSelect: "none" }}
             />
           </div>
@@ -842,11 +856,13 @@ function ThoughtsBento({
             overflow: "hidden",
           }}>
             <motion.img
-              src="/assets/thoughts/image-298.png"
+              src="/assets/thoughts/image-298.webp"
               alt="" draggable={false}
+              loading="lazy"
+              decoding="async"
               initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
               animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-              transition={{ type: "tween", duration: 0.38, delay: 0.30, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ type: "tween", duration: 0.24, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
               style={{ position: "absolute", left: 48, top: 29, width: 302, height: 205, borderRadius: 12, userSelect: "none" }}
             />
           </div>
@@ -963,8 +979,9 @@ function CaseStudiesBento({
 
         {/* 3.1.png cell — flex:1 */}
         <FigmaImageCell
-          src="/assets/case-studies/3.1.png"
+          src="/assets/case-studies/3.1.webp"
           delay={0.10}
+          priority
           imgStyle={{
             left: 44, top: -30,
             width: 467, height: 303,
@@ -980,14 +997,14 @@ function CaseStudiesBento({
 
         {/* image-293 cell — flex:1 */}
         <FigmaImageCell
-          src="/assets/case-studies/image-293.png"
+          src="/assets/case-studies/image-293.webp"
           delay={0.18}
           imgStyle={{ left: 62, top: 45.5, width: 451, height: 330, borderRadius: 12 }}
         />
 
         {/* Component 61 cell — 276px fixed */}
         <FigmaImageCell
-          src="/assets/case-studies/component-61.png"
+          src="/assets/case-studies/component-61.webp"
           width={276}
           delay={0.26}
           imgStyle={{
