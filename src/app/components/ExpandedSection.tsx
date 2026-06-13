@@ -922,6 +922,7 @@ function CaseStudiesBento({
           animate={{ opacity: 1 }}
           whileHover={{ y: -6, transition: { type: "tween", duration: 0.20, ease: "easeOut" } }}
           transition={{ type: "tween", duration: 0.22, delay: 0.04 }}
+          onClick={onNavigate}
           style={{
             width: 276, flexShrink: 0,
             background: cellBg,
@@ -944,7 +945,7 @@ function CaseStudiesBento({
           }}>
             {/* "View →" button — 98×41px, r:20, shadow */}
             <motion.button
-              onClick={onNavigate}
+              onClick={(e) => { e.stopPropagation(); onNavigate(); }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{

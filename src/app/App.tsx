@@ -5,6 +5,7 @@ import { DesignBackground } from "./components/DesignBackground";
 import { ExpandedSection } from "./components/ExpandedSection";
 import { LogoIcon } from "./components/LogoIcon";
 import { TypedWord } from "./components/TypedWord";
+import { navigateFromCard } from "./cardNavigation";
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
 const LIGHT = {
@@ -319,6 +320,11 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<{ label: string; index: number } | null>(null);
   const wheelCooldown = useRef(false);
 
+  const handleCardNavigate = (label: string, index: number) => {
+    if (navigateFromCard(label)) return;
+    setCurrentPage({ label, index });
+  };
+
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       if (wheelCooldown.current) return;
@@ -409,7 +415,7 @@ export default function App() {
                   index={card.index}
                   theme={theme}
                   mobile={mobile}
-                  onNavigate={() => setCurrentPage({ label: card.label, index: card.index })}
+                  onNavigate={() => handleCardNavigate(card.label, card.index)}
                 />
               </div>
             );
@@ -517,7 +523,7 @@ export default function App() {
               {...card} index={i} theme={theme}
               cardW={cardW} cardH={cardH} visible={visible} overlap={overlap}
               isActive={expandedStep > 0 && expandedStep <= SCROLL_CARDS.length && i === expandedStep - 1}
-              onNavigate={() => setCurrentPage({ label: card.label, index: i })}
+              onNavigate={() => handleCardNavigate(card.label, i)}
             />
           </div>
         ))}

@@ -13,6 +13,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { ExpandedSection } from "./components/ExpandedSection";
+import { navigateFromCard } from "./cardNavigation";
 import { LogoIcon } from "./components/LogoIcon";
 import { TypedWord } from "./components/TypedWord";
 
@@ -230,6 +231,11 @@ export default function RightFanApp() {
   const [currentPage, setCurrentPage]   = useState<{ label: string; index: number } | null>(null);
   const wheelCooldown = useRef(false);
 
+  const handleCardNavigate = (label: string, index: number) => {
+    if (navigateFromCard(label)) return;
+    setCurrentPage({ label, index });
+  };
+
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       if (wheelCooldown.current) return;
@@ -292,7 +298,7 @@ export default function RightFanApp() {
                   index={card.index}
                   theme={theme}
                   mobile={mobile}
-                  onNavigate={() => setCurrentPage({ label: card.label, index: card.index })}
+                  onNavigate={() => handleCardNavigate(card.label, card.index)}
                 />
               </div>
             );
@@ -352,7 +358,7 @@ export default function RightFanApp() {
               label={card.label} index={i} theme={theme}
               cardW={cardW} cardH={cardH} visible={visible}
               isActive={expandedStep > 0 && i === expandedStep - 1}
-              onNavigate={() => setCurrentPage({ label: card.label, index: i })}
+              onNavigate={() => handleCardNavigate(card.label, i)}
             />
           </div>
         ))}
