@@ -1,5 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
+
+const BENTO_W = 880;
+const BENTO_H = 511;
+
+function BentoScaleWrapper({ mobile, children }: { mobile: boolean; children: React.ReactNode }) {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    if (!mobile) {
+      setScale(1);
+      return;
+    }
+    const update = () => {
+      const sw = (window.innerWidth - 32) / BENTO_W;
+      const sh = (window.innerHeight - 240) / BENTO_H;
+      setScale(Math.min(1, sw, sh));
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [mobile]);
+
+  if (!mobile) return <>{children}</>;
+
+  return (
+    <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <div style={{ width: BENTO_W * scale, height: BENTO_H * scale, flexShrink: 0 }}>
+        <div
+          style={{
+            width: BENTO_W,
+            height: BENTO_H,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 type Theme = {
   text: string;
@@ -1045,6 +1086,7 @@ export function ExpandedSection({ label, index, theme, mobile, onNavigate }: Pro
       style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12, width }}
     >
       {/* ── Figma-spec bentos ── */}
+      <BentoScaleWrapper mobile={mobile}>
       {label === "Case Studies" ? (
         <CaseStudiesBento index={index} onNavigate={onNavigate} />
       ) : label === "Experiments" ? (
@@ -1141,6 +1183,7 @@ export function ExpandedSection({ label, index, theme, mobile, onNavigate }: Pro
           )}
         </motion.div>
       )}
+      </BentoScaleWrapper>
     </motion.div>
   );
 }

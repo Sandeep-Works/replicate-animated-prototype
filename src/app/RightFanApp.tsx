@@ -11,9 +11,11 @@
  *   • CardIllustration omitted — bottom-right design doesn't map here.
  */
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ExpandedSection } from "./components/ExpandedSection";
 import { navigateFromCard } from "./cardNavigation";
+import { useStepScroll } from "./useStepScroll";
+import { useViewport } from "./useViewport";
 import { LogoIcon } from "./components/LogoIcon";
 import { TypedWord } from "./components/TypedWord";
 
@@ -29,15 +31,6 @@ const LIGHT = {
 };
 
 function useTheme() { return LIGHT; }
-function useMobile() {
-  const [m, setM] = useState(() => window.innerWidth < 768);
-  useEffect(() => {
-    const h = () => setM(window.innerWidth < 768);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
-  }, []);
-  return m;
-}
 
 // ── Shared primitives ─────────────────────────────────────────────────────────
 function GlassFilter() {
@@ -225,35 +218,29 @@ function RightCard({ label, index, theme, cardW, cardH, visible, isActive, onNav
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function RightFanApp() {
   const theme  = useTheme();
-  const mobile = useMobile();
+  const { width: vw, height: vh, mobile } = useViewport();
 
   const [expandedStep, setExpandedStep] = useState(0);
   const [currentPage, setCurrentPage]   = useState<{ label: string; index: number } | null>(null);
-  const wheelCooldown = useRef(false);
 
   const handleCardNavigate = (label: string, index: number) => {
     if (navigateFromCard(label)) return;
     setCurrentPage({ label, index });
   };
 
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      if (wheelCooldown.current) return;
-      wheelCooldown.current = true;
-      setTimeout(() => { wheelCooldown.current = false; }, 850);
-      if (e.deltaY > 0) setExpandedStep(s => Math.min(s + 1, SCROLL_CARDS.length));
-      else              setExpandedStep(s => Math.max(s - 1, 0));
-    };
-    window.addEventListener("wheel", onWheel, { passive: true });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, []);
+  const maxStep = SCROLL_CARDS.length;
+  useStepScroll((direction) => {
+    setExpandedStep((s) =>
+      direction === 1 ? Math.min(s + 1, maxStep) : Math.max(s - 1, 0),
+    );
+  }, mobile ? 450 : 850);
 
-  const heroFontSize   = mobile ? 44 : 88;
-  const heroLineHeight = mobile ? "50px" : "92.4px";
-  const nameFontSize   = mobile ? 18 : 32;
-  const nameLineHeight = mobile ? "32px" : "60px";
-  const cardW          = mobile ? 150 : 210;
-  const cardH          = mobile ? 260 : 320;
+  const heroFontSize   = mobile ? Math.min(44, Math.floor(vw * 0.11)) : 88;
+  const heroLineHeight = mobile ? `${heroFontSize + 6}px` : "92.4px";
+  const nameFontSize   = mobile ? Math.min(18, Math.floor(vw * 0.048)) : 32;
+  const nameLineHeight = mobile ? `${nameFontSize + 14}px` : "60px";
+  const cardW          = mobile ? Math.min(132, Math.max(84, Math.floor((vw - 16) / 4.2))) : 210;
+  const cardH          = mobile ? Math.round(cardW * 1.73) : 320;
   // Width-based visible — 45 % of card width peeks from the right edge (default state)
   const visible        = Math.round(cardW * 0.45);
   const blobScale      = mobile ? 0.55 : 1;
@@ -262,7 +249,7 @@ export default function RightFanApp() {
     <>
     <div
       className="size-full relative overflow-hidden flex items-center justify-center"
-      style={{ background: theme.bg }}
+      style={{ background: theme.bg, touchAction: "none", height: mobile ? "100dvh" : "100%" }}
     >
       <GlassFilter />
 

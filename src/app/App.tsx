@@ -1,11 +1,13 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { CardIllustration } from "./components/CardIllustration";
 import { DesignBackground } from "./components/DesignBackground";
 import { ExpandedSection } from "./components/ExpandedSection";
 import { LogoIcon } from "./components/LogoIcon";
 import { TypedWord } from "./components/TypedWord";
 import { navigateFromCard } from "./cardNavigation";
+import { useStepScroll } from "./useStepScroll";
+import { useViewport } from "./useViewport";
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
 const LIGHT = {
@@ -36,16 +38,6 @@ const DARK = {
 
 function useTheme() {
   return LIGHT;
-}
-
-function useMobile() {
-  const [mobile, setMobile] = useState(() => window.innerWidth < 768);
-  useEffect(() => {
-    const handler = () => setMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-  return mobile;
 }
 
 // ── SVG filter ────────────────────────────────────────────────────────────────
@@ -314,36 +306,30 @@ function CardPage({
 
 export default function App() {
   const theme = useTheme();
-  const mobile = useMobile();
+  const { width: vw, height: vh, mobile } = useViewport();
 
   const [expandedStep, setExpandedStep] = useState(0);
   const [currentPage, setCurrentPage] = useState<{ label: string; index: number } | null>(null);
-  const wheelCooldown = useRef(false);
 
   const handleCardNavigate = (label: string, index: number) => {
     if (navigateFromCard(label)) return;
     setCurrentPage({ label, index });
   };
 
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      if (wheelCooldown.current) return;
-      wheelCooldown.current = true;
-      setTimeout(() => { wheelCooldown.current = false; }, 550);
-      if (e.deltaY > 0) setExpandedStep(s => Math.min(s + 1, SCROLL_CARDS.length + 1));
-      else              setExpandedStep(s => Math.max(s - 1, 0));
-    };
-    window.addEventListener("wheel", onWheel, { passive: true });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, []);
+  const maxStep = SCROLL_CARDS.length + 1;
+  useStepScroll((direction) => {
+    setExpandedStep((s) =>
+      direction === 1 ? Math.min(s + 1, maxStep) : Math.max(s - 1, 0),
+    );
+  }, mobile ? 450 : 550);
 
-  const heroFontSize   = mobile ? 44 : 88;
-  const heroLineHeight = mobile ? "50px" : "92.4px";
-  const nameFontSize   = mobile ? 18 : 32;
-  const nameLineHeight = mobile ? "32px" : "60px";
-  const cardW          = mobile ? 150 : 210;
-  const cardH          = mobile ? 260 : 320;
-  const overlap        = mobile ? 78 : 104;
+  const heroFontSize   = mobile ? Math.min(44, Math.floor(vw * 0.11)) : 88;
+  const heroLineHeight = mobile ? `${heroFontSize + 6}px` : "92.4px";
+  const nameFontSize   = mobile ? Math.min(18, Math.floor(vw * 0.048)) : 32;
+  const nameLineHeight = mobile ? `${nameFontSize + 14}px` : "60px";
+  const cardW          = mobile ? Math.min(132, Math.max(84, Math.floor((vw - 16) / 4.2))) : 210;
+  const cardH          = mobile ? Math.round(cardW * 1.73) : 320;
+  const overlap        = mobile ? Math.max(48, cardW - Math.ceil((vw - 16) / 5.4)) : 104;
   // Tuned: default ~30 % visible, hover ~52 %, scrolled ~70 %
   const visible        = Math.round(cardH * 0.30);
   const blobScale      = mobile ? 0.55 : 1;
@@ -352,7 +338,12 @@ export default function App() {
     <>
     <div
       className="size-full relative overflow-hidden flex items-center justify-center"
-      style={{ background: theme.bg, transition: "background 0.4s ease" }}
+      style={{
+        background: theme.bg,
+        transition: "background 0.4s ease",
+        touchAction: "none",
+        height: mobile ? "100dvh" : "100%",
+      }}
     >
       <GlassFilter />
 
@@ -395,20 +386,21 @@ export default function App() {
       <div style={{
         position: "absolute",
         left: 0, right: 0,
-        top: mobile ? 60 : 80,   // push down from browser top edge
-        bottom: mobile ? 185 : 240,
+        top: mobile ? 52 : 80,
+        bottom: mobile ? Math.round(vh * 0.30) : 240,
         display: "flex",
-        alignItems: "center",
+        alignItems: mobile ? "flex-start" : "center",
         justifyContent: "center",
         zIndex: 15,
         pointerEvents: "none",
-        padding: mobile ? "0 20px" : 0,
+        padding: mobile ? "0 16px" : 0,
+        overflow: mobile ? "hidden" : "visible",
       }}>
         <AnimatePresence mode="wait">
           {expandedStep > 0 && expandedStep <= SCROLL_CARDS.length && (() => {
             const card = SCROLL_CARDS[expandedStep - 1];
             return (
-              <div style={{ pointerEvents: "auto", width: mobile ? "100%" : 880 }}>
+              <div style={{ pointerEvents: "auto", width: mobile ? "100%" : 880, maxWidth: "100%" }}>
                 <ExpandedSection
                   key={card.label}
                   label={card.label}
@@ -434,8 +426,9 @@ export default function App() {
           zIndex: 1,
           userSelect: "none",
           marginBottom: 60,
-          marginTop: mobile ? -80 : -120,
-          padding: mobile ? "0 24px" : 0,
+          marginTop: mobile ? -40 : -120,
+          padding: mobile ? "0 20px" : 0,
+          textAlign: mobile ? "center" as const : "left" as const,
           pointerEvents: expandedStep > 0 ? "none" : "auto",
         }}>
         <p style={{ fontSize: nameFontSize, fontWeight: 300, letterSpacing: "0.8px", lineHeight: nameLineHeight, margin: 0 }}>
@@ -495,7 +488,7 @@ export default function App() {
         transition={{ type: "tween", duration: 0.20, ease: "easeOut" }}
         style={{
           position: "absolute",
-          bottom: mobile ? 130 : 160,
+          bottom: mobile ? Math.round(vh * 0.22) : 160,
           left: "50%",
           translateX: "-50%",
           zIndex: 4,
@@ -505,10 +498,19 @@ export default function App() {
         <motion.div
           animate={{ y: [0, 9, 0] }}
           transition={{ duration: 1.55, repeat: Infinity, ease: "easeInOut" }}
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}
         >
           <svg width="30" height="18" viewBox="0 0 30 18" fill="none">
             <path d="M2 2L15 15L28 2" stroke="rgba(25,32,64,0.52)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
+          {mobile && (
+            <span style={{
+              fontFamily: "system-ui, -apple-system, sans-serif",
+              fontSize: 11, color: "rgba(25,32,64,0.42)", letterSpacing: "0.06em",
+            }}>
+              Swipe up
+            </span>
+          )}
         </motion.div>
       </motion.div>
 
