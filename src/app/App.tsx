@@ -394,7 +394,7 @@ export default function App() {
         zIndex: 15,
         pointerEvents: "none",
         padding: mobile ? "0 16px" : 0,
-        overflow: mobile ? "hidden" : "visible",
+        overflow: mobile ? "visible" : "hidden",
       }}>
         <AnimatePresence mode="wait">
           {expandedStep > 0 && expandedStep <= SCROLL_CARDS.length && (() => {

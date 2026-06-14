@@ -1,47 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "motion/react";
-
-const BENTO_W = 880;
-const BENTO_H = 511;
-
-function BentoScaleWrapper({ mobile, children }: { mobile: boolean; children: React.ReactNode }) {
-  const [scale, setScale] = useState(1);
-
-  useEffect(() => {
-    if (!mobile) {
-      setScale(1);
-      return;
-    }
-    const update = () => {
-      const sw = (window.innerWidth - 32) / BENTO_W;
-      const sh = (window.innerHeight - 240) / BENTO_H;
-      setScale(Math.min(1, sw, sh));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, [mobile]);
-
-  if (!mobile) return <>{children}</>;
-
-  return (
-    <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-      <div style={{ width: BENTO_W * scale, height: BENTO_H * scale, flexShrink: 0 }}>
-        <div
-          style={{
-            width: BENTO_W,
-            height: BENTO_H,
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
-          }}
-        >
-          {children}
-        </div>
-      </div>
-    </div>
-  );
-}
-
+import { MobileBento } from "./MobileBento";
 type Theme = {
   text: string;
   textSub: string;
@@ -190,10 +149,24 @@ function FigmaImageCell({
 //   image-297: absolute left:74 top:63.5 w:406 h:509
 //
 function ExperimentsBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Experiments"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/experiments/image-280-531815.webp", priority: true, height: 160 },
+          { src: "/assets/experiments/component-release-popups.webp", height: 200 },
+          { src: "/assets/experiments/image-297.webp", height: 220 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
 
   return (
@@ -323,10 +296,26 @@ function ExperimentsBento({
 //   img-2141: left:32.5 top:40.5 w:180 h:210 r:16
 //
 function HandcraftedBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Handcrafted"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/handcrafted/img-2146.webp", priority: true, height: 170 },
+          { src: "/assets/handcrafted/img-2144.webp", height: 160 },
+          { src: "/assets/handcrafted/img-2140-152c46.webp", height: 180 },
+          { src: "/assets/handcrafted/img-2142.webp", height: 160 },
+          { src: "/assets/handcrafted/img-2141.webp", height: 160 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
   const cellStyle: React.CSSProperties = {
     background: cellBg,
@@ -471,10 +460,26 @@ function HandcraftedBento({
 //   img-277c: left:48 top:35.5  w:167 h:203 r:12
 //
 function CaffeinatedBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Caffeinated"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/caffeinated/img-278-570c3b.webp", priority: true, height: 170 },
+          { src: "/assets/caffeinated/img-277-1cbcaa.webp", height: 160 },
+          { src: "/assets/caffeinated/img-276-e797b2.webp", height: 170 },
+          { src: "/assets/caffeinated/img-277-7c6c1e.webp", height: 170 },
+          { src: "/assets/caffeinated/img-277-6a1602.webp", height: 160 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
   const cellStyle: React.CSSProperties = {
     background: cellBg,
@@ -617,10 +622,22 @@ function CaffeinatedBento({
 //   resume-doc.png at left:136.57 top:38, w:612 h:754 (overflows, clipped)
 //
 function ResumeBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Resume"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/resume/resume-doc.webp", priority: true, height: 280 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
   const cellStyle: React.CSSProperties = {
     background: cellBg,
@@ -742,10 +759,24 @@ function ResumeBento({
 //   Card 2 at (70,53.5) w:398 h:234 r:12 → image-298 at (48,29) w:302 h:205
 //
 function ThoughtsBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Thoughts"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/thoughts/image-306.webp", priority: true, height: 160 },
+          { src: "/assets/thoughts/image-305-207ac5.webp", height: 150 },
+          { src: "/assets/thoughts/image-298.webp", height: 170 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
   const cellBase: React.CSSProperties = {
     background: cellBg,
@@ -927,10 +958,24 @@ function ThoughtsBento({
 //   Component 61: absolute left:48 top:43 w:180 h:218 heavy shadow
 //
 function CaseStudiesBento({
-  index, onNavigate,
+  index, onNavigate, mobile,
 }: {
-  index: number; onNavigate: () => void;
+  index: number; onNavigate: () => void; mobile: boolean;
 }) {
+  if (mobile) {
+    return (
+      <MobileBento
+        title="Case studies"
+        onNavigate={onNavigate}
+        images={[
+          { src: "/assets/case-studies/3.1.webp", priority: true, height: 170 },
+          { src: "/assets/case-studies/image-293.webp", height: 180 },
+          { src: "/assets/case-studies/component-61.webp", height: 200 },
+        ]}
+      />
+    );
+  }
+
   const cellBg = "rgba(246,246,249,0.92)";
 
   return (
@@ -1086,19 +1131,18 @@ export function ExpandedSection({ label, index, theme, mobile, onNavigate }: Pro
       style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12, width }}
     >
       {/* ── Figma-spec bentos ── */}
-      <BentoScaleWrapper mobile={mobile}>
       {label === "Case Studies" ? (
-        <CaseStudiesBento index={index} onNavigate={onNavigate} />
+        <CaseStudiesBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : label === "Experiments" ? (
-        <ExperimentsBento index={index} onNavigate={onNavigate} />
+        <ExperimentsBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : label === "Handcrafted" ? (
-        <HandcraftedBento index={index} onNavigate={onNavigate} />
+        <HandcraftedBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : label === "Caffeinated" ? (
-        <CaffeinatedBento index={index} onNavigate={onNavigate} />
+        <CaffeinatedBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : label === "Resume" ? (
-        <ResumeBento index={index} onNavigate={onNavigate} />
+        <ResumeBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : label === "Thoughts" ? (
-        <ThoughtsBento index={index} onNavigate={onNavigate} />
+        <ThoughtsBento index={index} onNavigate={onNavigate} mobile={mobile} />
       ) : (
         // ── All other cards — same container dimensions as Case Studies ──────
         <motion.div
@@ -1183,7 +1227,6 @@ export function ExpandedSection({ label, index, theme, mobile, onNavigate }: Pro
           )}
         </motion.div>
       )}
-      </BentoScaleWrapper>
     </motion.div>
   );
 }
