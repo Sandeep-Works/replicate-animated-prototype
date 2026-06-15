@@ -33,10 +33,12 @@ export function MobileBento({
   title,
   images,
   onNavigate,
+  clickableImages = false,
 }: {
   title: string;
   images: ImageItem[];
   onNavigate: () => void;
+  clickableImages?: boolean;
 }) {
   return (
     <motion.div
@@ -99,7 +101,13 @@ export function MobileBento({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "tween", duration: 0.22, delay: img.delay ?? 0.08 + i * 0.06, ease: "easeOut" }}
-          style={{ ...CELL_STYLE, height: img.height ?? 180, position: "relative" }}
+          style={{
+            ...CELL_STYLE,
+            height: img.height ?? 180,
+            position: "relative",
+            cursor: clickableImages ? "pointer" : undefined,
+          }}
+          onClick={clickableImages ? onNavigate : undefined}
         >
           <motion.img
             src={img.src}
