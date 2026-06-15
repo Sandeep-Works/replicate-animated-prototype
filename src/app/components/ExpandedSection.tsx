@@ -305,6 +305,7 @@ function HandcraftedBento({
       <MobileBento
         title="Handcrafted"
         onNavigate={onNavigate}
+        clickableImages
         images={[
           { src: "/assets/handcrafted/img-2146.webp", priority: true, height: 170 },
           { src: "/assets/handcrafted/img-2144.webp", height: 160 },
@@ -333,6 +334,7 @@ function HandcraftedBento({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -24, scale: 0.98, transition: { type: "tween", duration: 0.16, ease: "easeIn" } }}
       transition={{ type: "tween", duration: 0.30, ease: [0.22, 1, 0.36, 1] }}
+      onClick={onNavigate}
       style={{
         width: "100%",
         height: 511,
@@ -346,6 +348,7 @@ function HandcraftedBento({
         gap: 16,
         flexShrink: 0,
         overflow: "hidden",
+        cursor: "pointer",
       }}
     >
       {/* ── Row 1 — flex:1 (~227px) ── */}
@@ -385,7 +388,7 @@ function HandcraftedBento({
             gap: 6,
           }}>
             <motion.button
-              onClick={onNavigate}
+              onClick={(e) => { e.stopPropagation(); onNavigate(); }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{
