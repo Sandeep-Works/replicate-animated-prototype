@@ -769,7 +769,7 @@ function ThoughtsBento({
         title="Thoughts"
         onNavigate={onNavigate}
         images={[
-          { src: "/assets/thoughts/image-306.webp", priority: true, height: 160 },
+          { src: "/assets/thoughts/image-306.webp", priority: true, height: 200 },
           { src: "/assets/thoughts/image-305-207ac5.webp", height: 150 },
           { src: "/assets/thoughts/image-298.webp", height: 170 },
         ]}
@@ -876,7 +876,12 @@ function ThoughtsBento({
             initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
             transition={{ type: "tween", duration: 0.24, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: "absolute", left: 39, top: -12, width: 398, height: 187, objectFit: "cover", borderRadius: 12, userSelect: "none" }}
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              objectFit: "cover", objectPosition: "top center",
+              borderRadius: 12, userSelect: "none",
+            }}
           />
         </motion.div>
       </div>

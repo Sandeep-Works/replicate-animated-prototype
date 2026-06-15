@@ -27,7 +27,7 @@ const TARGETS = {
   "resume/resume-card-2.png": { w: 400, h: 400 },
   "resume/resume-card-3.png": { w: 400, h: 400 },
   "resume/image-293-5ae191.png": { w: 196, h: 82 },
-  "thoughts/image-306.png": { w: 796, h: 374 },
+  "thoughts/image-306.png": { w: 796, h: 498 },
   "thoughts/image-305-207ac5.png": { w: 396, h: 312 },
   "thoughts/image-298.png": { w: 604, h: 410 },
   "thoughts/image-305-1e3c9d.png": { w: 400, h: 300 },
