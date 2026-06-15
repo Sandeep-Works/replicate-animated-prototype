@@ -158,6 +158,7 @@ function ExperimentsBento({
       <MobileBento
         title="Experiments"
         onNavigate={onNavigate}
+        clickableImages
         images={[
           { src: "/assets/experiments/image-280-531815.webp", priority: true, height: 160 },
           { src: "/assets/experiments/component-release-popups.webp", height: 200 },
@@ -175,6 +176,7 @@ function ExperimentsBento({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -24, scale: 0.98, transition: { type: "tween", duration: 0.16, ease: "easeIn" } }}
       transition={{ type: "tween", duration: 0.30, ease: [0.22, 1, 0.36, 1] }}
+      onClick={onNavigate}
       style={{
         width: "100%",
         height: 511,
@@ -188,6 +190,7 @@ function ExperimentsBento({
         gap: 16,
         flexShrink: 0,
         overflow: "hidden",
+        cursor: "pointer",
       }}
     >
       {/* ── Row 1 — 174px ── */}
@@ -227,7 +230,7 @@ function ExperimentsBento({
             gap: 6,
           }}>
             <motion.button
-              onClick={onNavigate}
+              onClick={(e) => { e.stopPropagation(); onNavigate(); }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               style={{
