@@ -263,6 +263,49 @@ function ResumeIllustration() {
   );
 }
 
+// ── 7. FAQs — Fanned Glass Cards ─────────────────────────────────────────────
+function FAQsIllustration() {
+  const cards = [
+    { left:  8, top: 30, rotate: -14, w: 108, h: 80, op: 0.38 },
+    { left: 30, top: 18, rotate:  -5, w: 108, h: 80, op: 0.58 },
+    { left: 54, top:  8, rotate:   5, w: 108, h: 80, op: 0.82 },
+  ];
+  return (
+    <div style={{ position: "relative", width: W, height: H }}>
+      {cards.map((c, i) => (
+        <React.Fragment key={i}>
+          <div style={{
+            position: "absolute", left: c.left, top: c.top,
+            width: c.w, height: c.h, borderRadius: 20, overflow: "hidden",
+            transform: `rotate(${c.rotate}deg)`,
+            filter: SHADOW,
+          }}>
+            <div style={{ position: "absolute", inset: 0, backdropFilter: GF, WebkitBackdropFilter: GF }} />
+            <div style={{
+              position: "absolute", inset: 0,
+              background: `linear-gradient(145deg, rgba(255,255,255,${c.op}) 0%, rgba(225,232,255,${c.op * 0.55}) 100%)`,
+            }} />
+            <div style={{
+              position: "absolute", left: 0, top: 0, right: 0, height: "26%",
+              background: `linear-gradient(180deg, rgba(255,255,255,${c.op * 0.9}) 0%, transparent 100%)`,
+            }} />
+          </div>
+          <div style={{
+            position: "absolute", left: c.left, top: c.top,
+            width: c.w, height: c.h, borderRadius: 20,
+            border: `1px solid rgba(255,255,255,${Math.min(c.op + 0.15, 0.95)})`,
+            boxShadow: `inset 0 2px 4px rgba(255,255,255,${c.op * 0.75})`,
+            transform: `rotate(${c.rotate}deg)`,
+            pointerEvents: "none",
+          }} />
+        </React.Fragment>
+      ))}
+      <Orb d={22} x={154} y={112} />
+      <Orb d={12} x={26}  y={118} />
+    </div>
+  );
+}
+
 // ── Map + export ──────────────────────────────────────────────────────────────
 
 const ILLUSTRATIONS: Record<string, () => React.ReactElement> = {
@@ -272,6 +315,7 @@ const ILLUSTRATIONS: Record<string, () => React.ReactElement> = {
   "Handcrafted":  TabletsIllustration,
   "Caffeinated":  LiquidIllustration,
   "Resume":       ResumeIllustration,
+  "FAQs":         FAQsIllustration,
 };
 
 // Illustration anchored so its top sits at the default-visible boundary (1/4 cardH).

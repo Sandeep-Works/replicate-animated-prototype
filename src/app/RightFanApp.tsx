@@ -84,10 +84,11 @@ const CARDS = [
   { label: "Handcrafted"  },
   { label: "Caffeinated"  },
   { label: "Resume"       },
+  { label: "FAQs"         },
 ];
 
 // Same tilts; transformOrigin "right center" fans them vertically
-const FAN_TILTS = [-8, -4.5, -1.5, 1.5, 4.5, 8];
+const FAN_TILTS = [-9, -5.5, -2.25, 0, 2.25, 5.5, 9];
 
 const SCROLL_CARDS = [
   { label: "Case Studies", index: 0 },
@@ -96,6 +97,7 @@ const SCROLL_CARDS = [
   { label: "Handcrafted",  index: 3 },
   { label: "Caffeinated",  index: 4 },
   { label: "Resume",       index: 5 },
+  { label: "FAQs",         index: 6 },
 ];
 
 const p1Keys = { left: [-35.86,214.14,-15.86,-15.86,254.14,284.14,-35.86], top: [64.58,290.58,290.58,216.58,216.58,64.58,64.58] };
@@ -141,7 +143,7 @@ function RightCard({ label, index, theme, cardW, cardH, visible, isActive, onNav
 }) {
   const tilt    = FAN_TILTS[index];
   // Vertical spread — cards fan upward/downward from centre
-  const offsetY = (index - 2.5) * (cardH < 280 ? 70 : 90);
+  const offsetY = (index - 3) * (cardH < 280 ? 70 : 90);
   const isTopCard = index === CARDS.length - 1;
 
   return (

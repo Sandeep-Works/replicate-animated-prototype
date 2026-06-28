@@ -112,9 +112,10 @@ const CARDS = [
   { label: "Handcrafted",  rotate: 180, flipY: true  },
   { label: "Caffeinated",  rotate: 0,   flipY: false },
   { label: "Resume",       rotate: 180, flipY: false },
+  { label: "FAQs",         rotate: 0,   flipY: true  },
 ];
 
-const FAN_TILTS = [-8, -4.5, -1.5, 1.5, 4.5, 8];
+const FAN_TILTS = [-9, -5.5, -2.25, 0, 2.25, 5.5, 9];
 
 const p1Keys = {
   left: [-35.86, 214.14, -15.86, -15.86, 254.14, 284.14, -35.86],
@@ -133,7 +134,7 @@ function BottomCard({ label, index, theme, cardW, cardH, visible, overlap, isAct
   isActive: boolean; onNavigate: () => void;
 }) {
   const tilt = FAN_TILTS[index];
-  const offsetX = (index - 2.5) * (cardW - overlap);
+  const offsetX = (index - 3) * (cardW - overlap);
   const isTopCard = index === CARDS.length - 1;
 
   return (
@@ -216,7 +217,7 @@ function BottomCard({ label, index, theme, cardW, cardH, visible, overlap, isAct
 }
 
 // ── App ───────────────────────────────────────────────────────────────────────
-// All 6 cards expand on scroll in deck order
+// All 7 cards expand on scroll in deck order
 const SCROLL_CARDS = [
   { label: "Case Studies", index: 0 },
   { label: "Experiments",  index: 1 },
@@ -224,6 +225,7 @@ const SCROLL_CARDS = [
   { label: "Handcrafted",  index: 3 },
   { label: "Caffeinated",  index: 4 },
   { label: "Resume",       index: 5 },
+  { label: "FAQs",         index: 6 },
 ];
 
 // ── Card page (full-screen view after navigation) ─────────────────────────────
@@ -400,7 +402,7 @@ export default function App() {
           {expandedStep > 0 && expandedStep <= SCROLL_CARDS.length && (() => {
             const card = SCROLL_CARDS[expandedStep - 1];
             return (
-              <div style={{ pointerEvents: "auto", width: mobile ? "100%" : 880, maxWidth: "100%" }}>
+              <div style={{ pointerEvents: "auto", width: mobile ? "100%" : 886, maxWidth: "100%" }}>
                 <ExpandedSection
                   key={card.label}
                   label={card.label}
