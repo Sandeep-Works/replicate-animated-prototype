@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardIllustration } from "./components/CardIllustration";
 import { DesignBackground } from "./components/DesignBackground";
 import { ExpandedSection } from "./components/ExpandedSection";
 import { LogoIcon } from "./components/LogoIcon";
 import { TypedWord } from "./components/TypedWord";
 import { navigateFromCard } from "./cardNavigation";
+import { preloadBentoImages } from "./preloadBentoImages";
 import { useStepScroll } from "./useStepScroll";
 import { useViewport } from "./useViewport";
 
@@ -313,6 +314,8 @@ export default function App() {
   const [expandedStep, setExpandedStep] = useState(0);
   const [currentPage, setCurrentPage] = useState<{ label: string; index: number } | null>(null);
 
+  useEffect(() => { preloadBentoImages(); }, []);
+
   const handleCardNavigate = (label: string, index: number) => {
     if (navigateFromCard(label)) return;
     setCurrentPage({ label, index });
@@ -396,7 +399,7 @@ export default function App() {
         zIndex: 15,
         pointerEvents: "none",
         padding: mobile ? "0 16px" : 0,
-        overflow: mobile ? "visible" : "hidden",
+        overflow: "visible",
       }}>
         <AnimatePresence mode="wait">
           {expandedStep > 0 && expandedStep <= SCROLL_CARDS.length && (() => {

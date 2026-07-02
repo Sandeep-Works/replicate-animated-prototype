@@ -7,21 +7,29 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const ASSETS = path.join(ROOT, "public", "assets");
 
-// Max output dimensions at 2× displayed size (retina)
+// Max output dimensions at ~2× displayed size (retina)
 const TARGETS = {
   "experiments/image-280-531815.png": { w: 842, h: 534 },
   "experiments/component-release-popups.png": { w: 296, h: 636 },
   "experiments/image-297.png": { w: 812, h: 1018 },
+  "experiments/velo-app.png": { w: 846, h: 548 },
+  "experiments/release-popups-frame.png": { w: 346, h: 622 },
+  "experiments/bottom-right-cell.png": { w: 1108, h: 455 },
+  "experiments/image-280-1ca4ca.png": { w: 846, h: 608 },
   "handcrafted/img-2146.png": { w: 370, h: 484 },
   "handcrafted/img-2144.png": { w: 322, h: 398 },
   "handcrafted/img-2140-152c46.png": { w: 502, h: 536 },
   "handcrafted/img-2142.png": { w: 350, h: 440 },
   "handcrafted/img-2141.png": { w: 360, h: 420 },
+  "handcrafted/img-2140.png": { w: 502, h: 536 },
+  "handcrafted/image-298-72cb62.png": { w: 432, h: 470 },
+  "handcrafted/IMG_2143-722b60.png": { w: 342, h: 450 },
   "caffeinated/img-278-570c3b.png": { w: 346, h: 448 },
   "caffeinated/img-277-1cbcaa.png": { w: 260, h: 346 },
   "caffeinated/img-276-e797b2.png": { w: 354, h: 444 },
   "caffeinated/img-277-7c6c1e.png": { w: 356, h: 456 },
   "caffeinated/img-277-6a1602.png": { w: 334, h: 406 },
+  "caffeinated/image-318-748f8f.png": { w: 320, h: 574 },
   "resume/resume-doc.png": { w: 900, h: 1108 },
   "resume/resume-card-1.png": { w: 400, h: 400 },
   "resume/resume-card-2.png": { w: 400, h: 400 },
@@ -34,10 +42,15 @@ const TARGETS = {
   "thoughts/image-305-4c6dee.png": { w: 796, h: 360 },
   "thoughts/image-305-79794c.png": { w: 400, h: 300 },
   "thoughts/image-293-5ae191.png": { w: 196, h: 82 },
-  "case-studies/3.1.png": { w: 934, h: 606 },
+  "thoughts/image-313.png": { w: 766, h: 605 },
+  "thoughts/image-314.png": { w: 844, h: 638 },
+  "thoughts/image-317-489cd7.png": { w: 334, h: 492 },
+  "case-studies/3.1.png": { w: 814, h: 528 },
   "case-studies/image-293.png": { w: 902, h: 660 },
   "case-studies/component-61.png": { w: 360, h: 436 },
-  "handcrafted/img-2140.png": { w: 502, h: 536 },
+  "case-studies/ai-panel-1260.png": { w: 818, h: 500 },
+  "case-studies/image-168-260a96.png": { w: 350, h: 762 },
+  "case-studies/image-116-6b17e3.png": { w: 720, h: 1580 },
 };
 
 function walk(dir) {
@@ -70,7 +83,7 @@ async function optimizeFile(absPath) {
     });
   }
 
-  await pipeline.webp({ quality: 82, effort: 4 }).toFile(outPath);
+  await pipeline.webp({ quality: 80, effort: 4 }).toFile(outPath);
 
   const after = fs.statSync(outPath).size;
   fs.unlinkSync(absPath);
@@ -87,11 +100,13 @@ for (const file of files) {
 const totalBefore = results.reduce((s, r) => s + (r?.before ?? 0), 0);
 const totalAfter = results.reduce((s, r) => s + (r?.after ?? 0), 0);
 
-console.log(`Optimized ${results.length} images`);
+console.log(`Optimized ${results.filter(Boolean).length} images`);
 console.log(`Before: ${(totalBefore / 1024 / 1024).toFixed(2)} MB`);
 console.log(`After:  ${(totalAfter / 1024 / 1024).toFixed(2)} MB WebP`);
-console.log(`Saved:  ${(((totalBefore - totalAfter) / totalBefore) * 100).toFixed(1)}%`);
+if (totalBefore > 0) {
+  console.log(`Saved:  ${(((totalBefore - totalAfter) / totalBefore) * 100).toFixed(1)}%`);
+}
 
-for (const r of results.sort((a, b) => b.before - a.before).slice(0, 8)) {
+for (const r of results.filter(Boolean).sort((a, b) => b.before - a.before).slice(0, 12)) {
   console.log(`  ${r.rel}: ${(r.before / 1024).toFixed(0)}KB → ${(r.after / 1024).toFixed(0)}KB`);
 }

@@ -81,7 +81,7 @@ function BentoShell({
       style={{
         width: "100%",
         height: 511,
-        background: "rgba(255, 255, 255, 0.5)",
+        background: "rgba(255, 255, 255, 0.88)",
         borderRadius: 20,
         padding: 20,
         display: "flex",
@@ -279,8 +279,8 @@ function CaseStudiesBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
             overflow: "hidden",
           }}>
             <img
-              src="/assets/case-studies/ai-panel-1260.png"
-              alt="" draggable={false} loading="lazy" decoding="async"
+              src="/assets/case-studies/ai-panel-1260.webp"
+              alt="" draggable={false} loading="eager" decoding="async" fetchPriority="high"
               style={{ width: "100%", height: "100%", objectFit: "cover", userSelect: "none" }}
             />
           </div>
@@ -299,8 +299,8 @@ function CaseStudiesBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
             overflow: "hidden",
           }}>
             <img
-              src="/assets/case-studies/image-168-260a96.png"
-              alt="" draggable={false} loading="lazy" decoding="async"
+              src="/assets/case-studies/image-168-260a96.webp"
+              alt="" draggable={false} loading="eager" decoding="async"
               style={{ width: "100%", height: "100%", objectFit: "cover", userSelect: "none" }}
             />
           </div>
@@ -340,7 +340,7 @@ function ExperimentsBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
         {/* Velo app — fill */}
         <TintCell tint={tint} delay={0.04}>
           <motion.img
-            src="/assets/experiments/velo-app.png"
+            src="/assets/experiments/velo-app.webp"
             alt="" draggable={false} loading="eager" decoding="async"
             initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
@@ -368,7 +368,7 @@ function ExperimentsBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
         {/* Release Popups — 276px */}
         <TintCell tint={tint} width={276} delay={0.18}>
           <motion.img
-            src="/assets/experiments/release-popups-frame.png"
+            src="/assets/experiments/release-popups-frame.webp"
             alt="" draggable={false} loading="lazy" decoding="async"
             initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
@@ -392,7 +392,7 @@ function ExperimentsBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
           style={{ flex: 1, borderRadius: 16, overflow: "hidden", position: "relative", flexShrink: 0 }}
         >
           <img
-            src="/assets/experiments/bottom-right-cell.png"
+            src="/assets/experiments/bottom-right-cell.webp"
             alt="" draggable={false} loading="lazy" decoding="async"
             style={{ width: "100%", height: "100%", objectFit: "cover", userSelect: "none" }}
           />
@@ -446,7 +446,7 @@ function ThoughtsBento({ onNavigate, mobile }: { onNavigate: () => void; mobile:
             overflow: "hidden",
           }}>
             <img
-              src="/assets/thoughts/image-313.png"
+              src="/assets/thoughts/image-313.webp"
               alt="" draggable={false} loading="eager" decoding="async"
               style={{
                 position: "absolute",
@@ -465,7 +465,7 @@ function ThoughtsBento({ onNavigate, mobile }: { onNavigate: () => void; mobile:
         {/* image-314 — 554px */}
         <TintCell tint={tint} width={554} delay={0.18}>
           <motion.img
-            src="/assets/thoughts/image-314.png"
+            src="/assets/thoughts/image-314.webp"
             alt="" draggable={false} loading="lazy" decoding="async"
             initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
@@ -491,7 +491,7 @@ function ThoughtsBento({ onNavigate, mobile }: { onNavigate: () => void; mobile:
             overflow: "hidden",
           }}>
             <img
-              src="/assets/thoughts/image-317-489cd7.png"
+              src="/assets/thoughts/image-317-489cd7.webp"
               alt="" draggable={false} loading="lazy" decoding="async"
               style={{
                 position: "absolute",
@@ -593,7 +593,7 @@ function HandcraftedBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
       {/* Row 1 — fixed height 227.5px */}
       <div style={{ display: "flex", gap: 16, flexShrink: 0 }}>
         <Row1ImgCell src="/assets/handcrafted/img-2142.webp"      imgX={0.33}  imgW={185} imgH={234} delay={0.04} />
-        <Row1ImgCell src="/assets/handcrafted/image-298-72cb62.png" imgX={-15} imgW={216} imgH={235} delay={0.08} />
+        <Row1ImgCell src="/assets/handcrafted/image-298-72cb62.webp" imgX={-15} imgW={216} imgH={235} delay={0.08} />
 
         {/* Label cell — 273px */}
         <TintCell tint={tint} width={273} height={227.5} delay={0.12} onClick={onNavigate}>
@@ -605,7 +605,7 @@ function HandcraftedBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
       <div style={{ display: "flex", gap: 16, flex: 1 }}>
         <Row2ImgCell src="/assets/handcrafted/img-2146.webp"       imgX={0}      imgY={-1}    imgW={166} imgH={217} delay={0.18} />
         <Row2ImgCell src="/assets/handcrafted/img-2141.webp"       imgX={-19.91} imgY={-28}   imgW={209.14} imgH={244} delay={0.22} />
-        <Row2ImgCell src="/assets/handcrafted/IMG_2143-722b60.png" imgX={0.33}   imgY={-9.5}  imgW={171} imgH={225} delay={0.26} />
+        <Row2ImgCell src="/assets/handcrafted/IMG_2143-722b60.webp" imgX={0.33}   imgY={-9.5}  imgW={171} imgH={225} delay={0.26} />
       </div>
     </BentoShell>
   );
@@ -707,7 +707,7 @@ function CaffeinatedBento({ onNavigate, mobile }: { onNavigate: () => void; mobi
       <div style={{ display: "flex", gap: 16, flex: 1 }}>
         <Row2ImgCell src="/assets/caffeinated/img-276-e797b2.webp"    imgX={0}     imgY={-0.5}  imgW={171} imgH={216} delay={0.18} />
         <Row2ImgCell src="/assets/caffeinated/img-277-7c6c1e.webp"    imgX={-0.33} imgY={-0.5}  imgW={170} imgH={218} delay={0.22} />
-        <Row2ImgCell src="/assets/caffeinated/image-318-748f8f.png"   imgX={10.33} imgY={-99.5} imgW={160} imgH={287} delay={0.26} />
+        <Row2ImgCell src="/assets/caffeinated/image-318-748f8f.webp"   imgX={10.33} imgY={-99.5} imgW={160} imgH={287} delay={0.26} />
       </div>
     </BentoShell>
   );
